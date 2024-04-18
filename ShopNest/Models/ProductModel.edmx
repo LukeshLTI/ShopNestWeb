@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProductDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="nvarchar" MaxLength="8" StoreGeneratedPattern="Computed" />
+          <Property Name="ProductName" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Category" Type="nvarchar(max)" />
+          <Property Name="Subcategory" Type="nvarchar(max)" />
+          <Property Name="Version" Type="nvarchar(max)" />
+          <Property Name="LaunchDate" Type="date" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ImgID" Type="uniqueidentifier" />
+          <Property Name="Extension" Type="nvarchar(max)" />
+          <Property Name="FileName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="RoleMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RollName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="CGId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRolesMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="TimeZone" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="SharedLogin" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="MobileNumber" Type="nvarchar(max)" />
+          <Property Name="Streat" Type="nvarchar(max)" />
+          <Property Name="City" Type="nvarchar(max)" />
+          <Property Name="PinCode" Type="int" />
+          <Property Name="Country" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK__SubCategor__CGId__4BAC3F29">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CGId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__RoleI__03F0984C">
+          <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__UserI__02FC7413">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductDBModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRolesMapping" EntityType="Self.UserRolesMapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SubCategor__CGId__4BAC3F29" Association="Self.FK__SubCategor__CGId__4BAC3F29">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="SubCategory" EntitySet="SubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__RoleI__03F0984C" Association="Self.FK__UserRoles__RoleI__03F0984C">
+            <End Role="RoleMaster" EntitySet="RoleMaster" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__UserI__02FC7413" Association="Self.FK__UserRoles__UserI__02FC7413">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMapping" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubCategories" Relationship="Self.FK__SubCategor__CGId__4BAC3F29" FromRole="Category" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="String" MaxLength="8" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Subcategory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LaunchDate" Type="DateTime" Precision="0" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ImgID" Type="Guid" />
+          <Property Name="Extension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RoleMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RollName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserRolesMappings" Relationship="Self.FK__UserRoles__RoleI__03F0984C" FromRole="RoleMaster" ToRole="UserRolesMapping" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CGId" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__SubCategor__CGId__4BAC3F29" FromRole="SubCategory" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="UserRolesMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RoleMaster" Relationship="Self.FK__UserRoles__RoleI__03F0984C" FromRole="UserRolesMapping" ToRole="RoleMaster" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserRoles__UserI__02FC7413" FromRole="UserRolesMapping" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeZone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SharedLogin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Streat" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PinCode" Type="Int32" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserRolesMappings" Relationship="Self.FK__UserRoles__UserI__02FC7413" FromRole="Users" ToRole="UserRolesMapping" />
+        </EntityType>
+        <Association Name="FK__SubCategor__CGId__4BAC3F29">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CGId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__RoleI__03F0984C">
+          <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__UserI__02FC7413">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ApplicationDBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="RoleMasters" EntityType="Self.RoleMaster" />
+          <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
+          <EntitySet Name="UserRolesMappings" EntityType="Self.UserRolesMapping" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__SubCategor__CGId__4BAC3F29" Association="Self.FK__SubCategor__CGId__4BAC3F29">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__RoleI__03F0984C" Association="Self.FK__UserRoles__RoleI__03F0984C">
+            <End Role="RoleMaster" EntitySet="RoleMasters" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMappings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__UserI__02FC7413" Association="Self.FK__UserRoles__UserI__02FC7413">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMappings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductDBModelStoreContainer" CdmEntityContainer="ApplicationDBContext">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ProductDBModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ProductDBModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Subcategory" ColumnName="Subcategory" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="LaunchDate" ColumnName="LaunchDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ImgID" ColumnName="ImgID" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleMasters">
+            <EntityTypeMapping TypeName="ProductDBModel.RoleMaster">
+              <MappingFragment StoreEntitySet="RoleMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RollName" ColumnName="RollName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategories">
+            <EntityTypeMapping TypeName="ProductDBModel.SubCategory">
+              <MappingFragment StoreEntitySet="SubCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CGId" ColumnName="CGId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRolesMappings">
+            <EntityTypeMapping TypeName="ProductDBModel.UserRolesMapping">
+              <MappingFragment StoreEntitySet="UserRolesMapping">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ProductDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SharedLogin" ColumnName="SharedLogin" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="Streat" ColumnName="Streat" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
